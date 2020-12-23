@@ -120,11 +120,33 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"src/js/main.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var images = [{
+  id: 1,
+  src: "./assets/slides/image1.jpg",
+  content: "Photo 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
+}, {
+  id: 2,
+  src: "./assets/slides/image2.jpg",
+  content: "Photo 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
+}];
+
+var Images = function Images(id, src, content) {
+  _classCallCheck(this, Images);
+
+  this.id = id;
+  this.src = src;
+  this.content = content;
+};
+
 var Galerie = function Galerie(el, images) {
   _classCallCheck(this, Galerie);
 
-  this.el = document.querySelector(el);
+  this.el = document.querySelector(el, images);
+  this.images = [];
+  this.loadImages(images);
 };
+
+new Galerie('#app', images);
 },{}],"../../../../../Users/chlou/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -153,7 +175,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54900" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50719" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
