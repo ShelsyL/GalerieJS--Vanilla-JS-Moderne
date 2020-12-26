@@ -1,32 +1,10 @@
-import images   from './data';
-import Galerie  from './modules/Galerie';
+import images   from './data'; // Importation des données des images
+import Galerie  from './modules/Galerie'; // On charge Galerie.js
 
 
-
+// Instanciation (Création) d'un nouvel objet de type Galerie
+  // On lui envois un élément et des données images
 new Galerie({
-  el: '#app',
-  images
+  el: '#app', // On colle notre Galerie sur le el
+  images // Données (ces données devrait venir de la db normalement)
 });
-
-
-
-
-
-// class Image {
-//   constructor (image) {
-//     this.id = image.id;
-//     this.src = image.src;
-//     this.alt = image.alt;
-//     this.content = image.content;
-//   }
-// }
-//
-// class Galerie {
-//   constructor (el, images) {
-//     this.el = document.querySelector(el);
-//     this.images = [];
-//     this.loadImages(images);
-//   }
-// }
-//
-// new Galerie('#app', images);

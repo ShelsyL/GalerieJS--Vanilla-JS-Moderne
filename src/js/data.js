@@ -1,3 +1,5 @@
+// Données qui devrait normalement venir de la db avec de l'AJAX.
+
 export default [
   {
     id: 1,

@@ -2,7 +2,7 @@ export default `
 <div class="slider fullsize">
   <div class="slides">
 
-    <ul style="width: 500%" class="galerie">
+    <ul style="width: 500%" class="image-list">
     </ul>
 
 </div>
