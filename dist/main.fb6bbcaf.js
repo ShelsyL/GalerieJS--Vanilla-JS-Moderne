@@ -127,31 +127,31 @@ exports.default = void 0;
 // Données qui devrait normalement venir de la db avec de l'AJAX.
 var _default = [{
   id: 1,
-  src: "./assets/slides/image1.jpg",
+  src: "../dist/image1.8a2ca438.jpg",
   alt: "A cat game",
   // Titre
   content: "Photo 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 2,
-  src: "./assets/slides/image2.jpg",
+  src: "./dist/image2.8c653784.jpg",
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 3,
-  src: "./assets/slides/image3.jpg",
+  src: "../assets/slides/image3.jpg",
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 4,
-  src: "./assets/slides/image4.jpg",
+  src: "../assets/slides/image4.jpg",
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 5,
-  src: "./assets/slides/image5.jpg",
+  src: "../assets/slides/image5.jpg",
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 5 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
@@ -164,7 +164,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _default = "\n  <!-- PHOTO 1 -->\n  <li class=\"slide\" data-id=\"{{id}}\">\n  <figure>\n    <img src=\"{{src}}\" alt=\"{{alt}}\">\n    <!-- Bouton d'informations sur la photo -->\n    <figcaption>\n      <a href=\"#\" class=\"icon icon-info\">\n        <i class=\"material-icons\">add_circle</i>\n      </a>\n      <div>{{content}}</div>\n    </figcaption>\n    <!-- /Bouton d'informations sur la photo -->\n  </figure>\n  </li>\n  <!-- /PHOTO 1 -->\n";
+// Template d'une image
+var _default = "\n  <li class=\"slide\" data-id=\"{{id}}\">\n  <figure>\n    <img src=\"{{src}}\" alt=\"{{alt}}\">\n    <!-- Bouton d'informations sur la photo -->\n    <figcaption>\n      <a href=\"#\" class=\"icon icon-info\">\n        <i class=\"material-icons\">add_circle</i>\n      </a>\n      <div>{{content}}</div>\n    </figcaption>\n    <!-- /Bouton d'informations sur la photo -->\n  </figure>\n  </li>\n";
 exports.default = _default;
 },{}],"js/modules/Image.js":[function(require,module,exports) {
 "use strict";
@@ -180,15 +181,67 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Image = function Image(image) {
-  _classCallCheck(this, Image);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  this.id = image.id; // Ton id (id de class Image), est égal à l'id de image
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-  this.src = image.src;
-  this.alt = image.alt;
-  this.content = image.content;
-};
+// On importe imageTemplate
+// data: {
+//   parent: Galerie,
+//   image: {id: 1, src: "./assets/slides/image2.jpg", alt: "A cat game", content: "Lorem Ipsum..."}
+// }
+var Image = /*#__PURE__*/function () {
+  function Image(data) {
+    _classCallCheck(this, Image);
+
+    this.parent = data.parent;
+    this.id = data.image.id; // Ton id (id de class Image), est égal à l'id de image
+
+    this.src = data.image.src;
+    this.alt = data.image.alt;
+    this.content = data.image.content;
+    this.template = _image.default;
+  }
+  /* On crée le render après car dans le constructor on a pas encore
+     de code HTML du template, quand on le push, le code HTML se construit apres. */
+
+
+  _createClass(Image, [{
+    key: "render",
+    value: function render() {
+      // Quand je demande a une image de faire un render ..
+      // On va transformer le this.template
+      // Je remplace les données statique par les données de Image
+      // this.template = this.template.replace('{{id}}', this.id); // On va remplacer (replace) les {{id}} par this.id
+      // this.template = this.template.replace('{{src}}', this.src);
+      // this.template = this.template.replace('{{alt}}', this.alt);
+      // this.template = this.template.replace('{{content}}', this.content); // idem que id
+      //OU BOUCLE
+      // for (let propriete in this) { // On parcour toutes les propriétés | this c'est l'objet
+      //     this.template = this.template.replace('{{'+propriete+'}}', this.[propriete]);
+      //   }
+      //
+      //   const newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
+      //   newImage.innerHTML = this.template; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+      //   this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
+      //   propriete.render;
+      // }
+      //
+      for (var propriete in this) {
+        // On parcour toutes les propriétés | this c'est l'objet
+        this.template = this.template.replace('{{' + propriete + '}}', this[propriete]);
+      }
+
+      var newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
+
+      newImage.innerHTML = this.template; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+
+      this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
+    }
+  }]);
+
+  return Image;
+}();
 
 exports.default = Image;
 },{"./templates/image":"js/modules/templates/image.js"}],"js/modules/templates/galerie.js":[function(require,module,exports) {
@@ -234,6 +287,7 @@ var Galerie = /*#__PURE__*/function () {
 
     // data récupérées de l'instanciation new Galerie
     this.el = document.querySelector(data.el);
+    this.listEl;
     this.images = []; // On met les données chargée ci dessous dans ce tableau vide.
 
     this.loadImages(data.images); // On charge les données des images pour hydrater this.images
@@ -253,7 +307,10 @@ var Galerie = /*#__PURE__*/function () {
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var image = _step.value;
-          this.images.push(new _Image.default(image)); //dans (image));, on envois un tableau de type json avec 4 propriétés (id, src, alt, content)
+          this.images.push(new _Image.default({
+            parent: this,
+            image: image
+          })); //dans (image));, on envois un tableau de type json avec 4 propriétés (id, src, alt, content)
         }
       } catch (err) {
         _iterator.e(err);
@@ -264,7 +321,23 @@ var Galerie = /*#__PURE__*/function () {
   }, {
     key: "render",
     value: function render() {
-      this.el.innerHTML = this.template;
+      this.el.innerHTML = this.template; // L'élément .image-list existe pour le naviguateur
+
+      this.listEl = this.el.querySelector('.image-list'); // On demande à chacun des images de faire un render, donc de s'affciher
+
+      var _iterator2 = _createForOfIteratorHelper(this.images),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var image = _step2.value;
+          image.render();
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
     }
   }]);
 
@@ -319,7 +392,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58897" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59381" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
