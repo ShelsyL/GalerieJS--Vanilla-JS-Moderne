@@ -117,47 +117,74 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"js/data.js":[function(require,module,exports) {
+})({"images/image1.jpg":[function(require,module,exports) {
+module.exports = "/image1.c99f29b7.jpg";
+},{}],"images/image2.jpg":[function(require,module,exports) {
+module.exports = "/image2.b83c9975.jpg";
+},{}],"images/image3.jpg":[function(require,module,exports) {
+module.exports = "/image3.b00b07c2.jpg";
+},{}],"images/image4.jpg":[function(require,module,exports) {
+module.exports = "/image4.1a9eb963.jpg";
+},{}],"images/image5.jpg":[function(require,module,exports) {
+module.exports = "/image5.89c15421.jpg";
+},{}],"js/data.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _image = _interopRequireDefault(require("../images/image1.jpg"));
+
+var _image2 = _interopRequireDefault(require("../images/image2.jpg"));
+
+var _image3 = _interopRequireDefault(require("../images/image3.jpg"));
+
+var _image4 = _interopRequireDefault(require("../images/image4.jpg"));
+
+var _image5 = _interopRequireDefault(require("../images/image5.jpg"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // Données qui devrait normalement venir de la db avec de l'AJAX.
+// import image1 from "../../assets/slides/image1.jpg";
+// var img1 = ./../dist/(startsWith("image1"));
+// import image1 from "./image1.jpg";
+// var img1 = ../../dist/(indexOf("image1"));
+// const img1 = ../../assets/slides/"image1.jpg";
 var _default = [{
   id: 1,
-  src: "../dist/image1.8a2ca438.jpg",
+  src: _image.default,
   alt: "A cat game",
-  // Titre
   content: "Photo 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 2,
-  src: "./dist/image2.8c653784.jpg",
+  src: _image2.default,
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 3,
-  src: "../assets/slides/image3.jpg",
+  src: _image3.default,
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 4,
-  src: "../assets/slides/image4.jpg",
+  src: _image4.default,
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }, {
   id: 5,
-  src: "../assets/slides/image5.jpg",
+  src: _image5.default,
   alt: "Tatoo &amp; cat",
   // Titre
   content: "Photo 5 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
 }];
 exports.default = _default;
-},{}],"js/modules/templates/image.js":[function(require,module,exports) {
+},{"../images/image1.jpg":"images/image1.jpg","../images/image2.jpg":"images/image2.jpg","../images/image3.jpg":"images/image3.jpg","../images/image4.jpg":"images/image4.jpg","../images/image5.jpg":"images/image5.jpg"}],"js/modules/templates/image.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -165,7 +192,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 // Template d'une image
-var _default = "\n  <li class=\"slide\" data-id=\"{{id}}\">\n  <figure>\n    <img src=\"{{src}}\" alt=\"{{alt}}\">\n    <!-- Bouton d'informations sur la photo -->\n    <figcaption>\n      <a href=\"#\" class=\"icon icon-info\">\n        <i class=\"material-icons\">add_circle</i>\n      </a>\n      <div>{{content}}</div>\n    </figcaption>\n    <!-- /Bouton d'informations sur la photo -->\n  </figure>\n  </li>\n";
+var _default = "\n<!-- Image template -->\n  <figure data-id=\"{{id}}\">\n    <img src=\"{{src}}\" alt=\"{{alt}}\">\n    <!-- Bouton d'informations sur la photo -->\n    <figcaption>\n      <a href=\"#\" class=\"icon icon-info\">\n        <i class=\"material-icons\">add_circle</i>\n      </a>\n      <div>{{content}}</div>\n    </figcaption>\n    <!-- /Bouton d'informations sur la photo -->\n  </figure>\n";
 exports.default = _default;
 },{}],"js/modules/Image.js":[function(require,module,exports) {
 "use strict";
@@ -230,9 +257,12 @@ var Image = /*#__PURE__*/function () {
       for (var propriete in this) {
         // On parcour toutes les propriétés | this c'est l'objet
         this.template = this.template.replace('{{' + propriete + '}}', this[propriete]);
-      }
+      } // const newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
 
-      var newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
+
+      var newImage = document.createElement('li'); // Création du nouveau li
+
+      newImage.setAttribute("class", "slide"); // class slide au nouveau élément li
 
       newImage.innerHTML = this.template; // .. A la place d'afficher un Coucou on aura le template d'une image ..
 
@@ -251,7 +281,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _default = "\n<div class=\"slider fullsize\">\n  <div class=\"slides\">\n\n    <ul style=\"width: 500%\" class=\"image-list\">\n    </ul>\n\n</div>\n\n<!-- MENU DE GAUCHE Photos -->\n<div class=\"menu\">\n  <div class=\"slider-menu\">\n    <h1>Titre</h1>\n    <ul class=\"slides\">\n\n      <li>\n        <a href=\"#0\" class=\"\">\n          <img src=\"./assets/slides/image1.jpg\" alt=\"A cat game\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#1\" class=\"\">\n          <img src=\"./assets/slides/image2.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#2\" class=\"\">\n          <img src=\"./assets/slides/image3.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#3\" class=\"\">\n          <img src=\"./assets/slides/image4.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#4\" class=\"\">\n          <img src=\"./assets/slides/image5.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n<!-- /MENU DE GAUCHE Photos -->\n\n<!-- NAVIGUATION -->\n<div class=\"navigation\">\n  <div>\n    <ul class=\"navigation\">\n      <!-- Bouton Pr\xE9c\xE9dent -->\n      <li class=\"previous\">\n        <a href=\"#\"><i class=\"material-icons\">fast_rewind</i></a>\n      </li>\n      <!-- /Bouton Pr\xE9c\xE9dent -->\n      <!-- Bouton Pause -->\n      <li class=\"stop active\">\n        <a href=\"#\"><i class=\"material-icons\">pause_circle_filled</i></a>\n      </li>\n      <!-- /Bouton Pause -->\n      <!-- Bouton Play -->\n      <li class=\"play\">\n        <a href=\"#\"><i class=\"material-icons\">play_circle_filled</i></a>\n      </li>\n      <!-- /Bouton Play -->\n      <!-- Bouton Suivant -->\n      <li class=\"next\">\n        <a href=\"#\"><i class=\"material-icons\">fast_forward</i></a>\n      </li>\n      <!-- /Bouton Suivant -->\n    </ul>\n  </div>\n</div>\n<!-- /NAVIGUATION -->\n\n</div>\n</div>\n";
+var _default = "\n<!-- Galerie template -->\n\n<div class=\"slider fullsize\">\n  <div class=\"slides\">\n    <ul style=\"width: 500%\" class=\"image-list\">\n    <!-- Template d'une image -->\n    </ul>\n\n</div>\n\n<!-- MENU DE GAUCHE Photos -->\n<div class=\"menu\">\n  <div class=\"slider-menu\">\n    <h1>Titre</h1>\n    <ul class=\"slides\">\n\n      <li>\n        <a href=\"#0\" class=\"\">\n          <img src=\"./assets/slides/image1.jpg\" alt=\"A cat game\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#1\" class=\"\">\n          <img src=\"./assets/slides/image2.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#2\" class=\"\">\n          <img src=\"./assets/slides/image3.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#3\" class=\"\">\n          <img src=\"./assets/slides/image4.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#4\" class=\"\">\n          <img src=\"./assets/slides/image5.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n<!-- /MENU DE GAUCHE Photos -->\n\n<!-- NAVIGUATION -->\n<div class=\"navigation\">\n  <div>\n    <ul class=\"navigation\">\n\n      <!-- Bouton Pr\xE9c\xE9dent -->\n      <li class=\"previous\">\n        <a href=\"#\"><i class=\"material-icons\">fast_rewind</i></a>\n      </li>\n\n      <!-- Bouton Pause -->\n      <li class=\"stop active\">\n        <a href=\"#\"><i class=\"material-icons\">pause_circle_filled</i></a>\n      </li>\n\n      <!-- Bouton Play -->\n      <li class=\"play\">\n        <a href=\"#\"><i class=\"material-icons\">play_circle_filled</i></a>\n      </li>\n\n      <!-- Bouton Suivant -->\n      <li class=\"next\">\n        <a href=\"#\"><i class=\"material-icons\">fast_forward</i></a>\n      </li>\n\n    </ul>\n  </div>\n</div>\n<!-- /NAVIGUATION -->\n\n</div>\n</div>\n";
 exports.default = _default;
 },{}],"js/modules/Galerie.js":[function(require,module,exports) {
 "use strict";
@@ -290,17 +320,18 @@ var Galerie = /*#__PURE__*/function () {
     this.listEl;
     this.images = []; // On met les données chargée ci dessous dans ce tableau vide.
 
-    this.loadImages(data.images); // On charge les données des images pour hydrater this.images
+    this._loadImages(data.images); // On charge les données des images pour hydrater this.images
+
 
     this.template = _galerie.default;
-    this.render(); // On lance la méthode render (éffectue le rendu)
-  } // METHODE loadImages
+    this.render(this.images); // On lance la méthode render (éffectue le rendu)
+  } // METHODE loadImages - Chargement des images sous formes d'objets de type Image dans this.images
   // But => Parcour tous les images pour en faire des objet de type Image
 
 
   _createClass(Galerie, [{
-    key: "loadImages",
-    value: function loadImages(images) {
+    key: "_loadImages",
+    value: function _loadImages(images) {
       var _iterator = _createForOfIteratorHelper(images),
           _step;
 
@@ -317,27 +348,46 @@ var Galerie = /*#__PURE__*/function () {
       } finally {
         _iterator.f();
       }
-    }
+    } // Rendu de la Galerie
+
   }, {
     key: "render",
-    value: function render() {
+    value: function render(images) {
       this.el.innerHTML = this.template; // L'élément .image-list existe pour le naviguateur
 
-      this.listEl = this.el.querySelector('.image-list'); // On demande à chacun des images de faire un render, donc de s'affciher
+      this.listEl = this.el.querySelector('.image-list'); // Rendu des images - On demande à chacun des images de faire un render, donc de s'affciher
 
-      var _iterator2 = _createForOfIteratorHelper(this.images),
+      var _iterator2 = _createForOfIteratorHelper(images),
           _step2;
 
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var image = _step2.value;
           image.render();
-        }
+        } // activer la deux.
+        //
+
       } catch (err) {
         _iterator2.e(err);
       } finally {
         _iterator2.f();
       }
+
+      _activerBtns();
+    }
+  }, {
+    key: "_nextImage",
+    value: function _nextImage() {
+      next;
+    }
+  }, {
+    key: "_activerBtns",
+    value: function _activerBtns() {
+      // Previous
+      // Next
+      this.el.querySelector('.next').onclick = function () {
+        _nextImage();
+      };
     }
   }]);
 
@@ -352,19 +402,33 @@ var _data = _interopRequireDefault(require("./data"));
 
 var _Galerie = _interopRequireDefault(require("./modules/Galerie"));
 
+var _image = _interopRequireDefault(require("../images/image1.jpg"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Importation des données des images
 // On charge Galerie.js
 // Instanciation (Création) d'un nouvel objet de type Galerie
 // On lui envois un élément et des données images
+//
+// var debugDiv = document.querySelector('#debug');
+// const imageDiv = document.createElement('div');
+// //imageDiv.innerHTML = "<img src=" + image1 + ">";
+// imageDiv.innerHTML = "<figure> <img src=" + image1 + " alt='Elephant at sunset'> <figcaption>An elephant at sunset</figcaption> </figure>";
+// imageDiv.innerHTML = "<figure> <img src=" + image1 + " alt='Elephant at sunset'> <figcaption>An elephant at sunset</figcaption> </figure>";
+// debugDiv.appendChild(imageDiv);
+// for (let image of images) {
+//   const imageDiv = document.createElement('div');
+//   imageDiv.innerHTML = image.src;
+//   debugDiv.appendChild(imageDiv);
+// };
 new _Galerie.default({
   el: '#app',
   // On colle notre Galerie sur le el
   images: _data.default // Données (ces données devrait venir de la db normalement)
 
 });
-},{"./data":"js/data.js","./modules/Galerie":"js/modules/Galerie.js"}],"../../../../../../Users/chlou/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./data":"js/data.js","./modules/Galerie":"js/modules/Galerie.js","../images/image1.jpg":"images/image1.jpg"}],"../../../../../../Users/chlou/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -392,7 +456,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59381" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54865" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

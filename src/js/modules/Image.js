@@ -39,7 +39,9 @@ export default class Image {
       this.template = this.template.replace('{{'+propriete+'}}', this[propriete]);
     }
 
-    const newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
+    // const newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
+    const newImage = document.createElement('li'); // Création du nouveau li
+    newImage.setAttribute("class","slide"); // class slide au nouveau élément li
     newImage.innerHTML = this.template; // .. A la place d'afficher un Coucou on aura le template d'une image ..
     this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
   }

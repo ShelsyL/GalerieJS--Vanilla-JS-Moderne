@@ -1,8 +1,8 @@
 // Template d'une image
 
 export default `
-  <li class="slide" data-id="{{id}}">
-  <figure>
+<!-- Image template -->
+  <figure data-id="{{id}}">
     <img src="{{src}}" alt="{{alt}}">
     <!-- Bouton d'informations sur la photo -->
     <figcaption>
@@ -13,5 +13,4 @@ export default `
     </figcaption>
     <!-- /Bouton d'informations sur la photo -->
   </figure>
-  </li>
 `;

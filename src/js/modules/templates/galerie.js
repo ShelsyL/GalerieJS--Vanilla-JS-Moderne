@@ -1,8 +1,10 @@
 export default `
+<!-- Galerie template -->
+
 <div class="slider fullsize">
   <div class="slides">
-
     <ul style="width: 500%" class="image-list">
+    <!-- Template d'une image -->
     </ul>
 
 </div>
@@ -51,26 +53,27 @@ export default `
 <div class="navigation">
   <div>
     <ul class="navigation">
+
       <!-- Bouton Précédent -->
       <li class="previous">
         <a href="#"><i class="material-icons">fast_rewind</i></a>
       </li>
-      <!-- /Bouton Précédent -->
+
       <!-- Bouton Pause -->
       <li class="stop active">
         <a href="#"><i class="material-icons">pause_circle_filled</i></a>
       </li>
-      <!-- /Bouton Pause -->
+
       <!-- Bouton Play -->
       <li class="play">
         <a href="#"><i class="material-icons">play_circle_filled</i></a>
       </li>
-      <!-- /Bouton Play -->
+
       <!-- Bouton Suivant -->
       <li class="next">
         <a href="#"><i class="material-icons">fast_forward</i></a>
       </li>
-      <!-- /Bouton Suivant -->
+
     </ul>
   </div>
 </div>
