@@ -299,7 +299,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _default = "\n<!-- GALERIE TEMPLATE -->\n\n<div class=\"slider fullsize\">\n   <div class=\"slides\">\n      <ul style=\"width: 500%\" class=\"image-list\">\n         <!-- RENDER IMAGE SLIDE -->\n      </ul>\n   </div>\n\n   <div class=\"menu\">\n      <div class=\"slider-menu\">\n         <h1>Titre</h1>\n         <ul class=\"slides image-menu\">\n            <!-- RENDER MENU IMAGE -->\n         </ul>\n      </div>\n   </div>\n\n   <!-- NAVIGATION -->\n   <div class=\"navigation\">\n      <div>\n         <ul class=\"navigation\">\n\n            <!-- BOUTON PREVIOUS -->\n            <li class=\"previous onclick=\"plusDivs(-1)\">\n              <a href=\"#\"><i class=\"material-icons\">fast_rewind</i></a>\n            </li>\n\n            <!-- BOUTON STOP -->\n            <li class=\"stop active\">\n               <a href=\"#\"><i class=\"material-icons\">pause_circle_filled</i></a>\n            </li>\n\n            <!-- BOUTON PLAY -->\n            <li class=\"play\">\n               <a href=\"#\"><i class=\"material-icons\">play_circle_filled</i></a>\n            </li>\n\n            <!-- BOUTON NEXT -->\n            <li class=\"next onclick=\"plusDivs(+1)\">\n            <a href=\"#\"><i class=\"material-icons\">fast_forward</i></a>\n            </li>\n\n         </ul>\n      </div>\n   </div>\n</div>\n</div>\n";
+var _default = "\n<!-- GALERIE TEMPLATE -->\n\n<div class=\"slider fullsize\">\n   <div class=\"slides\">\n      <ul style=\"width: 500%\" class=\"image-list\">\n         <!-- RENDER IMAGE SLIDE -->\n      </ul>\n   </div>\n\n   <div class=\"menu\">\n      <div class=\"slider-menu\">\n         <h1>Titre</h1>\n         <ul class=\"slides image-menu\">\n            <!-- RENDER MENU IMAGE -->\n         </ul>\n      </div>\n   </div>\n\n   <!-- NAVIGATION -->\n   <div class=\"navigation\">\n      <div>\n         <ul class=\"navigation\">\n\n            <!-- BOUTON PREVIOUS -->\n            <li class=\"previous\">\n              <a href=\"#\"><i class=\"material-icons\">fast_rewind</i></a>\n            </li>\n\n            <!-- BOUTON STOP -->\n            <li class=\"stop active\">\n               <a href=\"#\"><i class=\"material-icons\">pause_circle_filled</i></a>\n            </li>\n\n            <!-- BOUTON PLAY -->\n            <li class=\"play\">\n               <a href=\"#\"><i class=\"material-icons\">play_circle_filled</i></a>\n            </li>\n\n            <!-- BOUTON NEXT -->\n            <li class=\"next\">\n            <a href=\"#\"><i class=\"material-icons\">fast_forward</i></a>\n            </li>\n\n         </ul>\n      </div>\n   </div>\n</div>\n</div>\n";
 exports.default = _default;
 },{}],"js/modules/Galerie.js":[function(require,module,exports) {
 "use strict";
@@ -369,14 +369,24 @@ var Galerie = /*#__PURE__*/function () {
       } finally {
         _iterator.f();
       }
-    } // Rendu de la Galerie
+    } // RENDU GALERIE ----------
 
   }, {
     key: "render",
     value: function render() {
       this.el.innerHTML = this.template; // On met le template sur l'element sur lequel on a greffer l'application
       // L'élément .image-list et .image-menu existe pour le naviguateur
-    }
+      // Activation des éléments intéractifs
+
+      this._next();
+
+      this._play();
+
+      this._previous();
+
+      this._stop();
+    } // RENDU IMAGE SLIDE ----------
+
   }, {
     key: "renderImgSlide",
     value: function renderImgSlide() {
@@ -395,7 +405,8 @@ var Galerie = /*#__PURE__*/function () {
       } finally {
         _iterator2.f();
       }
-    }
+    } // RENDU IMAGE MENU ----------
+
   }, {
     key: "renderImgMenu",
     value: function renderImgMenu() {
@@ -414,6 +425,47 @@ var Galerie = /*#__PURE__*/function () {
       } finally {
         _iterator3.f();
       }
+    } //------------------------------------------------------------------------------
+    // BOUTON NEXT ----------
+
+  }, {
+    key: "_next",
+    value: function _next() {
+      // Activation de l'input navigation
+      this.el.querySelector('.next').onclick = function (e) {
+        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
+        alert("Next");
+      };
+    } // BOUTON PLAY ----------
+
+  }, {
+    key: "_play",
+    value: function _play() {
+      // Activation de l'input navigation
+      this.el.querySelector('.play').onclick = function (e) {
+        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
+        alert("Play");
+      };
+    } // BOUTON PREVIOUS ----------
+
+  }, {
+    key: "_previous",
+    value: function _previous() {
+      // Activation de l'input navigation
+      this.el.querySelector('.previous').onclick = function (e) {
+        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
+        alert("Previous");
+      };
+    } // BOUTON STOP ----------
+
+  }, {
+    key: "_stop",
+    value: function _stop() {
+      // Activation de l'input navigation
+      this.el.querySelector('.stop').onclick = function (e) {
+        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
+        alert("Stop");
+      };
     }
   }]);
 

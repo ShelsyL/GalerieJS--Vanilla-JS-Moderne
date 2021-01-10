@@ -23,7 +23,7 @@ export default `
          <ul class="navigation">
 
             <!-- BOUTON PREVIOUS -->
-            <li class="previous onclick="plusDivs(-1)">
+            <li class="previous">
               <a href="#"><i class="material-icons">fast_rewind</i></a>
             </li>
 
@@ -38,7 +38,7 @@ export default `
             </li>
 
             <!-- BOUTON NEXT -->
-            <li class="next onclick="plusDivs(+1)">
+            <li class="next">
             <a href="#"><i class="material-icons">fast_forward</i></a>
             </li>
 
