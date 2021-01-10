@@ -148,41 +148,46 @@ var _image5 = _interopRequireDefault(require("../images/image5.jpg"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Données qui devrait normalement venir de la db avec de l'AJAX.
-// import image1 from "../../assets/slides/image1.jpg";
-// var img1 = ./../dist/(startsWith("image1"));
-// import image1 from "./image1.jpg";
-// var img1 = ../../dist/(indexOf("image1"));
-// const img1 = ../../assets/slides/"image1.jpg";
 var _default = [{
   id: 1,
   src: _image.default,
   alt: "A cat game",
-  content: "Photo 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
+  content: "Photo 1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit.",
+  href: "#0"
 }, {
   id: 2,
   src: _image2.default,
   alt: "Tatoo &amp; cat",
   // Titre
-  content: "Photo 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
+  content: "Photo 2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit.",
+  href: "#1"
 }, {
   id: 3,
   src: _image3.default,
   alt: "Tatoo &amp; cat",
   // Titre
-  content: "Photo 3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
+  content: "Photo 3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit.",
+  href: "#2"
 }, {
   id: 4,
   src: _image4.default,
   alt: "Tatoo &amp; cat",
   // Titre
-  content: "Photo 4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
+  content: "Photo 4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit.",
+  href: "#3"
 }, {
   id: 5,
   src: _image5.default,
   alt: "Tatoo &amp; cat",
   // Titre
-  content: "Photo 5 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit."
-}];
+  content: "Photo 5 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi blandit et nisi sed blandit.",
+  href: "#4"
+}]; // import image1 from "../../assets/slides/image1.jpg";
+// var img1 = ./../dist/(startsWith("image1"));
+// import image1 from "./image1.jpg";
+// var img1 = ../../dist/(indexOf("image1"));
+// const img1 = ../../assets/slides/"image1.jpg";
+
 exports.default = _default;
 },{"../images/image1.jpg":"images/image1.jpg","../images/image2.jpg":"images/image2.jpg","../images/image3.jpg":"images/image3.jpg","../images/image4.jpg":"images/image4.jpg","../images/image5.jpg":"images/image5.jpg"}],"js/modules/templates/image.js":[function(require,module,exports) {
 "use strict";
@@ -191,8 +196,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-// Template d'une image
-var _default = "\n<!-- Image template -->\n  <figure data-id=\"{{id}}\">\n    <img src=\"{{src}}\" alt=\"{{alt}}\">\n    <!-- Bouton d'informations sur la photo -->\n    <figcaption>\n      <a href=\"#\" class=\"icon icon-info\">\n        <i class=\"material-icons\">add_circle</i>\n      </a>\n      <div>{{content}}</div>\n    </figcaption>\n    <!-- /Bouton d'informations sur la photo -->\n  </figure>\n";
+// Template d'une image du slide
+var _default = "\n<!-- IMAGE SLIDE  -->\n<figure data-id=\"{{id}}\">\n   <img class=\"mySlides\" src=\"{{src}}\" alt=\"{{alt}}\">\n   <!-- Bouton d'informations sur la photo -->\n   <figcaption>\n      <a href=\"#\" class=\"icon icon-info\">\n      <i class=\"material-icons\">add_circle</i>\n      </a>\n      <div>{{content}}</div>\n   </figcaption>\n   <!-- /Bouton d'informations sur la photo -->\n</figure>\n";
+exports.default = _default;
+},{}],"js/modules/templates/menu.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+// Template d'une image du menu
+var _default = "\n<!-- MENU IMAGE  -->\n\n<li>\n   <a href={{href}} class=\"\">\n   <img src={{src}} alt={{alt}}>\n   </a>\n</li>\n\n";
 exports.default = _default;
 },{}],"js/modules/Image.js":[function(require,module,exports) {
 "use strict";
@@ -203,6 +218,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _image = _interopRequireDefault(require("./templates/image"));
+
+var _menu = _interopRequireDefault(require("./templates/menu"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -226,45 +243,46 @@ var Image = /*#__PURE__*/function () {
 
     this.src = data.image.src;
     this.alt = data.image.alt;
+    this.href = data.image.href;
     this.content = data.image.content;
-    this.template = _image.default;
+    this.templateImgSlide = _image.default;
+    this.templateImgMenu = _menu.default;
   }
   /* On crée le render après car dans le constructor on a pas encore
      de code HTML du template, quand on le push, le code HTML se construit apres. */
+  // Rendu d'une image
 
 
   _createClass(Image, [{
-    key: "render",
-    value: function render() {
-      // Quand je demande a une image de faire un render ..
-      // On va transformer le this.template
-      // Je remplace les données statique par les données de Image
-      // this.template = this.template.replace('{{id}}', this.id); // On va remplacer (replace) les {{id}} par this.id
-      // this.template = this.template.replace('{{src}}', this.src);
-      // this.template = this.template.replace('{{alt}}', this.alt);
-      // this.template = this.template.replace('{{content}}', this.content); // idem que id
-      //OU BOUCLE
-      // for (let propriete in this) { // On parcour toutes les propriétés | this c'est l'objet
-      //     this.template = this.template.replace('{{'+propriete+'}}', this.[propriete]);
-      //   }
-      //
-      //   const newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
-      //   newImage.innerHTML = this.template; // .. A la place d'afficher un Coucou on aura le template d'une image ..
-      //   this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
-      //   propriete.render;
-      // }
-      //
+    key: "menuRender",
+    value: function menuRender() {
+      // On transforme le this.template |  Je remplace les données statique par les données de Image
+      // On parcouri toutes les propriétés - d'un Objet(in) - d'un Tableau(of) | this c'est l'objet
+      for (var propriete in this) {
+        this.templateImgMenu = this.templateImgMenu.replace('{{' + propriete + '}}', this[propriete]);
+      } // CONSTRUCTION D'UNE IMG MENU
+
+
+      var newMenu = document.createElement('li'); // Création du nouveau li
+
+      newMenu.innerHTML = this.templateImgMenu; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+
+      this.parent.listEl.appendChild(newMenu); // .. et il va venir l'ajouter a la Galerie
+    }
+  }, {
+    key: "imageRender",
+    value: function imageRender() {
       for (var propriete in this) {
         // On parcour toutes les propriétés | this c'est l'objet
-        this.template = this.template.replace('{{' + propriete + '}}', this[propriete]);
-      } // const newImage = document.createElement('div'); // .. Il va créer un nouveau div ..
+        this.templateImgSlide = this.templateImgSlide.replace('{{' + propriete + '}}', this[propriete]); //this.templateImgMenu = this.templateImgMenu.replace('{{'+propriete+'}}', this[propriete]);
+      } // CONSTRUCTION D'UNE IMG SLIDE
 
 
       var newImage = document.createElement('li'); // Création du nouveau li
 
-      newImage.setAttribute("class", "slide"); // class slide au nouveau élément li
+      newImage.classList.add("slide"); // class slide au nouveau élément li
 
-      newImage.innerHTML = this.template; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+      newImage.innerHTML = this.templateImgSlide; // .. A la place d'afficher un Coucou on aura le template d'une image ..
 
       this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
     }
@@ -274,14 +292,14 @@ var Image = /*#__PURE__*/function () {
 }();
 
 exports.default = Image;
-},{"./templates/image":"js/modules/templates/image.js"}],"js/modules/templates/galerie.js":[function(require,module,exports) {
+},{"./templates/image":"js/modules/templates/image.js","./templates/menu":"js/modules/templates/menu.js"}],"js/modules/templates/galerie.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _default = "\n<!-- Galerie template -->\n\n<div class=\"slider fullsize\">\n  <div class=\"slides\">\n    <ul style=\"width: 500%\" class=\"image-list\">\n    <!-- Template d'une image -->\n    </ul>\n\n</div>\n\n<!-- MENU DE GAUCHE Photos -->\n<div class=\"menu\">\n  <div class=\"slider-menu\">\n    <h1>Titre</h1>\n    <ul class=\"slides\">\n\n      <li>\n        <a href=\"#0\" class=\"\">\n          <img src=\"./assets/slides/image1.jpg\" alt=\"A cat game\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#1\" class=\"\">\n          <img src=\"./assets/slides/image2.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#2\" class=\"\">\n          <img src=\"./assets/slides/image3.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#3\" class=\"\">\n          <img src=\"./assets/slides/image4.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n\n      <li>\n        <a href=\"#4\" class=\"\">\n          <img src=\"./assets/slides/image5.jpg\" alt=\"Tatoo &amp; cat\">\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n<!-- /MENU DE GAUCHE Photos -->\n\n<!-- NAVIGUATION -->\n<div class=\"navigation\">\n  <div>\n    <ul class=\"navigation\">\n\n      <!-- Bouton Pr\xE9c\xE9dent -->\n      <li class=\"previous\">\n        <a href=\"#\"><i class=\"material-icons\">fast_rewind</i></a>\n      </li>\n\n      <!-- Bouton Pause -->\n      <li class=\"stop active\">\n        <a href=\"#\"><i class=\"material-icons\">pause_circle_filled</i></a>\n      </li>\n\n      <!-- Bouton Play -->\n      <li class=\"play\">\n        <a href=\"#\"><i class=\"material-icons\">play_circle_filled</i></a>\n      </li>\n\n      <!-- Bouton Suivant -->\n      <li class=\"next\">\n        <a href=\"#\"><i class=\"material-icons\">fast_forward</i></a>\n      </li>\n\n    </ul>\n  </div>\n</div>\n<!-- /NAVIGUATION -->\n\n</div>\n</div>\n";
+var _default = "\n<!-- GALERIE TEMPLATE -->\n\n<div class=\"slider fullsize\">\n   <div class=\"slides\">\n      <ul style=\"width: 500%\" class=\"image-list\">\n         <!-- RENDER IMAGE SLIDE -->\n      </ul>\n   </div>\n\n   <div class=\"menu\">\n      <div class=\"slider-menu\">\n         <h1>Titre</h1>\n         <ul class=\"slides image-menu\">\n            <!-- RENDER MENU IMAGE -->\n         </ul>\n      </div>\n   </div>\n\n   <!-- NAVIGATION -->\n   <div class=\"navigation\">\n      <div>\n         <ul class=\"navigation\">\n\n            <!-- BOUTON PREVIOUS -->\n            <li class=\"previous onclick=\"plusDivs(-1)\">\n              <a href=\"#\"><i class=\"material-icons\">fast_rewind</i></a>\n            </li>\n\n            <!-- BOUTON STOP -->\n            <li class=\"stop active\">\n               <a href=\"#\"><i class=\"material-icons\">pause_circle_filled</i></a>\n            </li>\n\n            <!-- BOUTON PLAY -->\n            <li class=\"play\">\n               <a href=\"#\"><i class=\"material-icons\">play_circle_filled</i></a>\n            </li>\n\n            <!-- BOUTON NEXT -->\n            <li class=\"next onclick=\"plusDivs(+1)\">\n            <a href=\"#\"><i class=\"material-icons\">fast_forward</i></a>\n            </li>\n\n         </ul>\n      </div>\n   </div>\n</div>\n</div>\n";
 exports.default = _default;
 },{}],"js/modules/Galerie.js":[function(require,module,exports) {
 "use strict";
@@ -323,8 +341,11 @@ var Galerie = /*#__PURE__*/function () {
     this._loadImages(data.images); // On charge les données des images pour hydrater this.images
 
 
-    this.template = _galerie.default;
-    this.render(this.images); // On lance la méthode render (éffectue le rendu)
+    this.template = _galerie.default; // On charge le code html du template de la Galerie (via import ci dessus)
+
+    this.render();
+    this.renderImgSlide();
+    this.renderImgMenu();
   } // METHODE loadImages - Chargement des images sous formes d'objets de type Image dans this.images
   // But => Parcour tous les images pour en faire des objet de type Image
 
@@ -352,42 +373,47 @@ var Galerie = /*#__PURE__*/function () {
 
   }, {
     key: "render",
-    value: function render(images) {
-      this.el.innerHTML = this.template; // L'élément .image-list existe pour le naviguateur
-
+    value: function render() {
+      this.el.innerHTML = this.template; // On met le template sur l'element sur lequel on a greffer l'application
+      // L'élément .image-list et .image-menu existe pour le naviguateur
+    }
+  }, {
+    key: "renderImgSlide",
+    value: function renderImgSlide() {
       this.listEl = this.el.querySelector('.image-list'); // Rendu des images - On demande à chacun des images de faire un render, donc de s'affciher
 
-      var _iterator2 = _createForOfIteratorHelper(images),
+      var _iterator2 = _createForOfIteratorHelper(this.images),
           _step2;
 
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var image = _step2.value;
-          image.render();
-        } // activer la deux.
-        //
-
+          image.imageRender();
+        }
       } catch (err) {
         _iterator2.e(err);
       } finally {
         _iterator2.f();
       }
+    }
+  }, {
+    key: "renderImgMenu",
+    value: function renderImgMenu() {
+      this.listEl = this.el.querySelector('.image-menu');
 
-      _activerBtns();
-    }
-  }, {
-    key: "_nextImage",
-    value: function _nextImage() {
-      next;
-    }
-  }, {
-    key: "_activerBtns",
-    value: function _activerBtns() {
-      // Previous
-      // Next
-      this.el.querySelector('.next').onclick = function () {
-        _nextImage();
-      };
+      var _iterator3 = _createForOfIteratorHelper(this.images),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var image = _step3.value;
+          image.menuRender();
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
     }
   }]);
 
@@ -402,33 +428,19 @@ var _data = _interopRequireDefault(require("./data"));
 
 var _Galerie = _interopRequireDefault(require("./modules/Galerie"));
 
-var _image = _interopRequireDefault(require("../images/image1.jpg"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Importation des données des images
 // On charge Galerie.js
 // Instanciation (Création) d'un nouvel objet de type Galerie
 // On lui envois un élément et des données images
-//
-// var debugDiv = document.querySelector('#debug');
-// const imageDiv = document.createElement('div');
-// //imageDiv.innerHTML = "<img src=" + image1 + ">";
-// imageDiv.innerHTML = "<figure> <img src=" + image1 + " alt='Elephant at sunset'> <figcaption>An elephant at sunset</figcaption> </figure>";
-// imageDiv.innerHTML = "<figure> <img src=" + image1 + " alt='Elephant at sunset'> <figcaption>An elephant at sunset</figcaption> </figure>";
-// debugDiv.appendChild(imageDiv);
-// for (let image of images) {
-//   const imageDiv = document.createElement('div');
-//   imageDiv.innerHTML = image.src;
-//   debugDiv.appendChild(imageDiv);
-// };
 new _Galerie.default({
   el: '#app',
   // On colle notre Galerie sur le el
-  images: _data.default // Données (ces données devrait venir de la db normalement)
+  images: _data.default // Envois de Données (ces données devrait venir de la db normalement)
 
 });
-},{"./data":"js/data.js","./modules/Galerie":"js/modules/Galerie.js","../images/image1.jpg":"images/image1.jpg"}],"../../../../../../Users/chlou/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./data":"js/data.js","./modules/Galerie":"js/modules/Galerie.js"}],"../../../../../../Users/chlou/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -456,7 +468,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54865" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55348" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
