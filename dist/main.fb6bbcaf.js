@@ -235,61 +235,93 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //   image: {id: 1, src: "./assets/slides/image2.jpg", alt: "A cat game", content: "Lorem Ipsum..."}
 // }
 var Image = /*#__PURE__*/function () {
+  // CONSTRUCTEUR
   function Image(data) {
     _classCallCheck(this, Image);
 
-    this.parent = data.parent;
-    this.id = data.image.id; // Ton id (id de class Image), est égal à l'id de image
+    // "ton" parent est date.parent (parent: Galerie)
+    this.parent = data.parent; // On associe "ton" x à data.image.x, ex: ton id et égal à l'id de image
 
+    this.id = data.image.id;
     this.src = data.image.src;
     this.alt = data.image.alt;
     this.href = data.image.href;
-    this.content = data.image.content;
+    this.content = data.image.content; // On stocke les imports dans des variables
+
     this.templateImgSlide = _image.default;
     this.templateImgMenu = _menu.default;
   }
-  /* On crée le render après car dans le constructor on a pas encore
-     de code HTML du template, quand on le push, le code HTML se construit apres. */
-  // RENDU D'UNE IMG MENU
+  /* NB: On crée le render après car dans le constructor on a pas encore
+     de code HTML du template, quand on le push, le code HTML se construit après. */
+
+  /*
+    METHODE menuRender()
+      RENDU D'UNE IMAGE MENU
+      1. Pour toutes les propriéts dans "toi" - NB: un Objet(in) - d'un Tableau(of) | this c'est l'objet
+      2. On remplace les données statique par les données de Image
+  */
 
 
   _createClass(Image, [{
     key: "menuRender",
     value: function menuRender() {
-      // On transforme le this.template |  Je remplace les données statique par les données de Image
-      // On parcouri toutes les propriétés - d'un Objet(in) - d'un Tableau(of) | this c'est l'objet
       for (var propriete in this) {
         this.templateImgMenu = this.templateImgMenu.replace('{{' + propriete + '}}', this[propriete]);
-      } // CONSTRUCTION D'UNE IMG MENU
+      }
+      /* CONSTRUCTION D'UNE IMG MENU
+          1. Création d'un nouveau li
+          2. Dans ce li, template d'une image
+          3. On ajoute dans "ton" parent (Galerie) le template d'une nouvelle image menuRender
+          4. On retourne une nouvelle image menu
+      */
 
 
-      var newImgMenu = document.createElement('li'); // Création du nouveau li
-
-      newImgMenu.innerHTML = this.templateImgMenu; // .. A la place d'afficher un Coucou on aura le template d'une image ..
-
-      this.parent.imageMenu.appendChild(newImgMenu); // .. et il va venir l'ajouter a la Galerie
-
+      var newImgMenu = document.createElement('li');
+      newImgMenu.innerHTML = this.templateImgMenu;
+      this.parent.imageMenu.appendChild(newImgMenu);
       return newImgMenu;
-    } // RENDU D'UNE IMG SLIDE
+    }
+    /* METHODE imageRender()
+        RENDU D'UNE IMAGE SLIDE
+        1. Pour toutes les propriéts dans "toi"
+        2. On remplace les données statique par les données de Image
+    */
 
   }, {
     key: "imageRender",
     value: function imageRender() {
       for (var propriete in this) {
-        // On parcour toutes les propriétés | this c'est l'objet
-        this.templateImgSlide = this.templateImgSlide.replace('{{' + propriete + '}}', this[propriete]); //this.templateImgMenu = this.templateImgMenu.replace('{{'+propriete+'}}', this[propriete]);
-      } // CONSTRUCTION D'UNE IMG SLIDE
+        this.templateImgSlide = this.templateImgSlide.replace('{{' + propriete + '}}', this[propriete]);
+      }
+      /* CONSTRUCTION D'UNE IMG SLIDE
+          1. Création d'un nouveau li
+          2. On ajoute la class "slide"
+          2. Dans ce li, template d'une image
+          3. On ajoute dans "ton" parent (Galerie) le template d'une nouvelle image menuRender
+          4. On retourne une nouvelle image slide
+      */
 
 
-      var newImgSlide = document.createElement('li'); // Création du nouveau li
+      var newImgSlide = document.createElement('li');
+      newImgSlide.classList.add("slide");
+      newImgSlide.innerHTML = this.templateImgSlide;
+      this.parent.imageSlide.appendChild(newImgSlide);
+      return newImgSlide; // Activation du bouton rond +
 
-      newImgSlide.classList.add("slide"); // class slide au nouveau élément li
+      this._activerAddCircle();
+    } //-------------------------------------
 
-      newImgSlide.innerHTML = this.templateImgSlide; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+    /*
+    METHODE _activerAddCircle()
+      Activation du bouton rond +
+    */
 
-      this.parent.imageSlide.appendChild(newImgSlide); // .. et il va venir l'ajouter a la Galerie
-
-      return newImgSlide;
+  }, {
+    key: "_activerAddCircle",
+    value: function _activerAddCircle() {
+      this.image.querySelector('.icon .icon-info').onclick = function () {
+        alert("Coucou");
+      };
     }
   }]);
 
@@ -335,6 +367,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // Charge le template de la galerie
 var Galerie = /*#__PURE__*/function () {
   // Définit la propriété élément (el)
+  // CONSTRUTEUR
   function Galerie(data) {
     _classCallCheck(this, Galerie);
 
@@ -343,11 +376,12 @@ var Galerie = /*#__PURE__*/function () {
     this.app = document.querySelector(data.el);
     this.template = _galerie.default; // On charge le code html du template de la Galerie (via import ci dessus)
 
-    this.render(); // list d'object Image.- Tableau vide
+    this.render(); // LISTE OBJECT IMAGES
 
-    this.images = []; // load Image dans this.images.
+    this.images = []; // Tableau vide
 
-    this._loadImages(data.images); // IMAGE SLIDE
+    this._loadImages(data.images); // load Image dans this.images.
+    // IMAGE SLIDE
 
 
     this.imageSlide;
@@ -355,8 +389,13 @@ var Galerie = /*#__PURE__*/function () {
 
     this.imageMenu;
     this.renderImgMenu();
-  } // METHODE loadImages - Chargement des images sous formes d'objets de type Image dans this.images
-  // But => Parcour tous les images pour en faire des objet de type Image
+  }
+  /*
+  METHODE _loadImages()
+    Chargement des images sous formes d'objets de type Image dans this.images
+    But => Parcour tous les images pour en faire des objets de type Image
+    - dans this.images, on envois un tableau de type json avec 4 propriétés (id, src, alt, content)
+  */
 
 
   _createClass(Galerie, [{
@@ -371,27 +410,40 @@ var Galerie = /*#__PURE__*/function () {
           this.images.push(new _Image.default({
             parent: this,
             image: image
-          })); //dans (image));, on envois un tableau de type json avec 4 propriétés (id, src, alt, content)
+          }));
         }
       } catch (err) {
         _iterator.e(err);
       } finally {
         _iterator.f();
       }
-    } // RENDU GALERIE ----------
+    }
+    /*
+      METHODE render()
+        Rendu de la Galerie
+        - 1. On met le template sur l'element sur lequel on a greffer l'application
+        - 2. On définit slideIndex sur 1
+        - 3. Activation des buttons
+     */
 
   }, {
     key: "render",
     value: function render() {
-      this.app.innerHTML = this.template; // On met le template sur l'element sur lequel on a greffer l'application
-      // L'élément .image-list et .image-menu existe pour le naviguateur
-      // On définit slideIndex sur 1
+      this.app.innerHTML = this.template; // L'élément .image-list et .image-menu existe pour le naviguateur
 
-      this.slideIndex = 1; // Activation des buttons
+      this.slideIndex = 1;
 
       this._activerBtns();
-    } // https://www.youtube.com/watch?v=5fKJE41MGyk&list=PLUjCePXct7Maf6Ijnmx3KqNxTfvCG3iV_&index=2&t=647s&ab_channel=PascalLACROIX
-    // RENDU IMAGE MENU ----------
+    }
+    /*
+      METHODE renderImgMenu()
+        Rendu d'une image du menu
+        - 1. On définit "ton" imageMenu
+        - 2. Pour chaque image dans nos données
+        - 3. On défini imgMenu (rendu d'une image menu dans la class Image)
+        - 4. On capture l'evenement (cliquer sur une image du menu)
+        - 5. On envois dans showGalerieImageItem l'id de l'image
+     */
 
   }, {
     key: "renderImgMenu",
@@ -409,9 +461,7 @@ var Galerie = /*#__PURE__*/function () {
           var imgMenu = image.menuRender();
 
           imgMenu.onclick = function () {
-            //alert(image.id)
-            // j'envois dans showGalerieImageItem l'id de l'image
-            _this.showGalerieImageItem(image.id);
+            _this.viewGalerieImg(image.id);
           };
         };
 
@@ -423,7 +473,15 @@ var Galerie = /*#__PURE__*/function () {
       } finally {
         _iterator2.f();
       }
-    } // RENDU IMAGE SLIDE ----------
+    }
+    /*
+      METHODE renderImgSlide()
+        Rendu d'une image du slide
+        - 1. On définit "ton" imageSlide
+        - 2. On ajoute un nouvelle attribut style, valeur -> taille de l'img %
+        - 3. Pour chaque image dans nos données ..
+        - 4. fait un rendu (rendu d'une image slide dans la class Image)
+     */
 
   }, {
     key: "renderImgSlide",
@@ -445,50 +503,77 @@ var Galerie = /*#__PURE__*/function () {
       } finally {
         _iterator3.f();
       }
-    } //------------------------------------------------------------------------------
+    }
+    /*
+      METHODE viewGalerieImg()
+        Vue d'une image dans la galerie
+        - 1. On envois le nbr
+     */
 
   }, {
-    key: "showGalerieImageItem",
-    value: function showGalerieImageItem(nbr) {
+    key: "viewGalerieImg",
+    value: function viewGalerieImg(nbr) {
       // nbr d'image.
-      var nbrImage = this.images.length; // trop loin. on reviens au debut.
+      var nbrImage = this.images.length; // trop loin, on reviens au debut.
 
       if (nbr > nbrImage) {
         this.slideIndex = 1;
-      } // trop avant. on reviens a la fin.
+      } // trop avant, on reviens à la fin.
       else if (nbr < 1) {
           this.slideIndex = nbrImage;
         } // affiche le nbr demandé
         else {
             this.slideIndex = nbr;
-          } // glisser l'element htlm au bon emplacement. en modifiant l'emplacement du bord gauche.
+          } // glisser l'élement htlm au bon emplacement, en modifiant l'emplacement du bord gauche
 
 
       this.imageSlide.style.left = '-' + (this.slideIndex - 1) + '00%';
     }
+    /*
+    METHODE _activerBtns()
+      Activation des boutons
+    */
+
   }, {
     key: "_activerBtns",
     value: function _activerBtns() {
       var _this2 = this;
 
-      // BOUTON PREVIOUS
+      /* BOUTON PREVIOUS
+        1. On capture l'évenement
+        2. On affiche dans "ta" vueImgGalerie "ton" slideIndex -1
+      */
       this.app.querySelector('.previous').onclick = function () {
-        _this2.showGalerieImageItem(_this2.slideIndex - 1); // this.slideIndex = this.slideIndex - 1;
+        _this2.viewGalerieImg(_this2.slideIndex - 1); // this.slideIndex = this.slideIndex - 1;
 
-      }; // BOUTON NEXT
+      };
+      /* BOUTON NEXT
+        1. On capture l'évenement
+        2. On affiche dans "ta" vueImgGalerie "ton" slideIndex +1
+      */
 
 
       this.app.querySelector('.next').onclick = function () {
-        _this2.showGalerieImageItem(_this2.slideIndex + 1); // this.slideIndex = this.slideIndex + 1;
+        _this2.viewGalerieImg(_this2.slideIndex + 1); // this.slideIndex = this.slideIndex + 1;
 
-      }; // BOUTON PLAY
+      };
+      /* BOUTON PLAY
+        1. On capture l'évenement
+        2. Si "tu est différent" de play_is_active
+        3. "tu" active _play()
+      */
 
 
       this.app.querySelector('.play').onclick = function () {
         if (!_this2.play_is_active) {
           _this2._play();
         }
-      }; // BOUTON PAUSE
+      };
+      /* BOUTON PAUSE
+          1. On capture l'évenement
+          2. Si "tu" est play_is_active
+          3. "tu" active _play()
+      */
 
 
       this.app.querySelector('.stop').onclick = function () {
@@ -497,6 +582,15 @@ var Galerie = /*#__PURE__*/function () {
         }
       };
     }
+    /*
+      METHODE _play()
+        1. Si "tu" est play_is_active
+          "ton" play_is_active est faux
+        2. Sinon, si "tu est différent" de is_running (en cours d'éxécution)
+          "ton" play_is_active est true
+          "tu" active _playtheslide()
+    */
+
   }, {
     key: "_play",
     value: function _play() {
@@ -509,6 +603,15 @@ var Galerie = /*#__PURE__*/function () {
       } // switchtheclass();
 
     }
+    /*
+      METHODE _playtheslide()
+        1. Si "tu" est play_is_active
+           "ton" is_running (en cours d'éxécution) est true
+           "ta" viewGalerieImg est "ton" slideIndex + 1
+           valeur de lecture => 2sec
+        2. Sinon "ton" is_running (en cours d'éxécution) est false
+     */
+
   }, {
     key: "_playtheslide",
     value: function _playtheslide() {
@@ -516,7 +619,7 @@ var Galerie = /*#__PURE__*/function () {
 
       if (this.play_is_active) {
         this.is_running = true;
-        this.showGalerieImageItem(this.slideIndex + 1);
+        this.viewGalerieImg(this.slideIndex + 1);
         setTimeout(function () {
           _this3._playtheslide();
         }, 2000);
