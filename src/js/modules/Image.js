@@ -23,7 +23,7 @@ export default class Image {
      de code HTML du template, quand on le push, le code HTML se construit apres. */
 
 
-  // Rendu d'une image
+  // RENDU D'UNE IMG MENU
   menuRender() {
       // On transforme le this.template |  Je remplace les données statique par les données de Image
       // On parcouri toutes les propriétés - d'un Objet(in) - d'un Tableau(of) | this c'est l'objet
@@ -32,20 +32,23 @@ export default class Image {
       }
 
       // CONSTRUCTION D'UNE IMG MENU
-      const newMenu = document.createElement('li'); // Création du nouveau li
-      newMenu.innerHTML = this.templateImgMenu; // .. A la place d'afficher un Coucou on aura le template d'une image ..
-      this.parent.listEl.appendChild(newMenu); // .. et il va venir l'ajouter a la Galerie
+      const newImgMenu = document.createElement('li'); // Création du nouveau li
+      newImgMenu.innerHTML = this.templateImgMenu; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+      this.parent.imageMenu.appendChild(newImgMenu); // .. et il va venir l'ajouter a la Galerie
+      return newImgMenu;
   }
 
+  // RENDU D'UNE IMG SLIDE
   imageRender() {
       for (let propriete in this) { // On parcour toutes les propriétés | this c'est l'objet
           this.templateImgSlide = this.templateImgSlide.replace('{{' + propriete + '}}', this[propriete]);
           //this.templateImgMenu = this.templateImgMenu.replace('{{'+propriete+'}}', this[propriete]);
       }
       // CONSTRUCTION D'UNE IMG SLIDE
-      const newImage = document.createElement('li'); // Création du nouveau li
-      newImage.classList.add("slide"); // class slide au nouveau élément li
-      newImage.innerHTML = this.templateImgSlide; // .. A la place d'afficher un Coucou on aura le template d'une image ..
-      this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
+      const newImgSlide = document.createElement('li'); // Création du nouveau li
+      newImgSlide.classList.add("slide"); // class slide au nouveau élément li
+      newImgSlide.innerHTML = this.templateImgSlide; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+      this.parent.imageSlide.appendChild(newImgSlide); // .. et il va venir l'ajouter a la Galerie
+      return newImgSlide;
   }
 }

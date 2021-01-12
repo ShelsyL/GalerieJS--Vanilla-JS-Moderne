@@ -207,7 +207,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 // Template d'une image du menu
-var _default = "\n<!-- MENU IMAGE  -->\n\n<li>\n   <a href={{href}} class=\"\">\n   <img src={{src}} alt={{alt}}>\n   </a>\n</li>\n\n";
+var _default = "\n<!-- MENU IMAGE  -->\n\n\n   <a href={{href}} class=\"\">\n   <img src={{src}} alt={{alt}}>\n   </a>\n\n\n";
 exports.default = _default;
 },{}],"js/modules/Image.js":[function(require,module,exports) {
 "use strict";
@@ -250,7 +250,7 @@ var Image = /*#__PURE__*/function () {
   }
   /* On crée le render après car dans le constructor on a pas encore
      de code HTML du template, quand on le push, le code HTML se construit apres. */
-  // Rendu d'une image
+  // RENDU D'UNE IMG MENU
 
 
   _createClass(Image, [{
@@ -263,12 +263,15 @@ var Image = /*#__PURE__*/function () {
       } // CONSTRUCTION D'UNE IMG MENU
 
 
-      var newMenu = document.createElement('li'); // Création du nouveau li
+      var newImgMenu = document.createElement('li'); // Création du nouveau li
 
-      newMenu.innerHTML = this.templateImgMenu; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+      newImgMenu.innerHTML = this.templateImgMenu; // .. A la place d'afficher un Coucou on aura le template d'une image ..
 
-      this.parent.listEl.appendChild(newMenu); // .. et il va venir l'ajouter a la Galerie
-    }
+      this.parent.imageMenu.appendChild(newImgMenu); // .. et il va venir l'ajouter a la Galerie
+
+      return newImgMenu;
+    } // RENDU D'UNE IMG SLIDE
+
   }, {
     key: "imageRender",
     value: function imageRender() {
@@ -278,13 +281,15 @@ var Image = /*#__PURE__*/function () {
       } // CONSTRUCTION D'UNE IMG SLIDE
 
 
-      var newImage = document.createElement('li'); // Création du nouveau li
+      var newImgSlide = document.createElement('li'); // Création du nouveau li
 
-      newImage.classList.add("slide"); // class slide au nouveau élément li
+      newImgSlide.classList.add("slide"); // class slide au nouveau élément li
 
-      newImage.innerHTML = this.templateImgSlide; // .. A la place d'afficher un Coucou on aura le template d'une image ..
+      newImgSlide.innerHTML = this.templateImgSlide; // .. A la place d'afficher un Coucou on aura le template d'une image ..
 
-      this.parent.listEl.appendChild(newImage); // .. et il va venir l'ajouter a la Galerie
+      this.parent.imageSlide.appendChild(newImgSlide); // .. et il va venir l'ajouter a la Galerie
+
+      return newImgSlide;
     }
   }]);
 
@@ -334,17 +339,21 @@ var Galerie = /*#__PURE__*/function () {
     _classCallCheck(this, Galerie);
 
     // data récupérées de l'instanciation new Galerie
-    this.el = document.querySelector(data.el);
-    this.listEl;
-    this.images = []; // On met les données chargée ci dessous dans ce tableau vide.
-
-    this._loadImages(data.images); // On charge les données des images pour hydrater this.images
-
-
+    // APP
+    this.app = document.querySelector(data.el);
     this.template = _galerie.default; // On charge le code html du template de la Galerie (via import ci dessus)
 
-    this.render();
-    this.renderImgSlide();
+    this.render(); // list d'object Image.- Tableau vide
+
+    this.images = []; // load Image dans this.images.
+
+    this._loadImages(data.images); // IMAGE SLIDE
+
+
+    this.imageSlide;
+    this.renderImgSlide(); // IMAGE MENU
+
+    this.imageMenu;
     this.renderImgMenu();
   } // METHODE loadImages - Chargement des images sous formes d'objets de type Image dans this.images
   // But => Parcour tous les images pour en faire des objet de type Image
@@ -374,23 +383,19 @@ var Galerie = /*#__PURE__*/function () {
   }, {
     key: "render",
     value: function render() {
-      this.el.innerHTML = this.template; // On met le template sur l'element sur lequel on a greffer l'application
+      this.app.innerHTML = this.template; // On met le template sur l'element sur lequel on a greffer l'application
       // L'élément .image-list et .image-menu existe pour le naviguateur
-      // Activation des éléments intéractifs
+      // On définit slideIndex sur 1
 
-      this._next();
+      this.slideIndex = 1; // Activation des buttons
 
-      this._play();
-
-      this._previous();
-
-      this._stop();
-    } // RENDU IMAGE SLIDE ----------
+      this._activerBtns();
+    } // RENDU IMAGE MENU ----------
 
   }, {
-    key: "renderImgSlide",
-    value: function renderImgSlide() {
-      this.listEl = this.el.querySelector('.image-list'); // Rendu des images - On demande à chacun des images de faire un render, donc de s'affciher
+    key: "renderImgMenu",
+    value: function renderImgMenu() {
+      this.imageMenu = this.app.querySelector('.image-menu');
 
       var _iterator2 = _createForOfIteratorHelper(this.images),
           _step2;
@@ -398,19 +403,25 @@ var Galerie = /*#__PURE__*/function () {
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var image = _step2.value;
-          image.imageRender();
+          var imgMenu = image.menuRender();
+
+          imgMenu.onclick = function () {
+            alert("Coucou");
+          };
         }
       } catch (err) {
         _iterator2.e(err);
       } finally {
         _iterator2.f();
       }
-    } // RENDU IMAGE MENU ----------
+    } // RENDU IMAGE SLIDE ----------
 
   }, {
-    key: "renderImgMenu",
-    value: function renderImgMenu() {
-      this.listEl = this.el.querySelector('.image-menu');
+    key: "renderImgSlide",
+    value: function renderImgSlide() {
+      this.imageSlide = this.app.querySelector('.image-list'); // Rendu des images - On demande à chacun des images de faire un render, donc de s'affciher
+
+      this.imageSlide.setAttribute('style', 'width:' + this.images.length + '00%');
 
       var _iterator3 = _createForOfIteratorHelper(this.images),
           _step3;
@@ -418,7 +429,7 @@ var Galerie = /*#__PURE__*/function () {
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var image = _step3.value;
-          image.menuRender();
+          image.imageRender();
         }
       } catch (err) {
         _iterator3.e(err);
@@ -426,46 +437,83 @@ var Galerie = /*#__PURE__*/function () {
         _iterator3.f();
       }
     } //------------------------------------------------------------------------------
-    // BOUTON NEXT ----------
 
   }, {
-    key: "_next",
-    value: function _next() {
-      // Activation de l'input navigation
-      this.el.querySelector('.next').onclick = function (e) {
-        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
-        alert("Next");
-      };
-    } // BOUTON PLAY ----------
+    key: "showGalerieImageItem",
+    value: function showGalerieImageItem(nbr) {
+      // nbr d'image.
+      var nbrImage = this.images.length; // trop loin. on reviens au debut.
 
+      if (nbr > nbrImage) {
+        this.slideIndex = 1;
+      } // trop avant. on reviens a la fin.
+      else if (nbr < 1) {
+          this.slideIndex = nbrImage;
+        } // affiche le nbr demandé
+        else {
+            this.slideIndex = nbr;
+          } // glisser l'element htlm au bon emplacement. en modifiant l'emplacement du bord gauche.
+
+
+      this.imageSlide.style.left = '-' + (this.slideIndex - 1) + '00%';
+    }
+  }, {
+    key: "_activerBtns",
+    value: function _activerBtns() {
+      var _this = this;
+
+      // BOUTON PREVIOUS
+      this.app.querySelector('.previous').onclick = function () {
+        _this.showGalerieImageItem(_this.slideIndex - 1); // this.slideIndex = this.slideIndex - 1;
+
+      }; // BOUTON NEXT
+
+
+      this.app.querySelector('.next').onclick = function () {
+        _this.showGalerieImageItem(_this.slideIndex + 1); // this.slideIndex = this.slideIndex + 1;
+
+      }; // BOUTON PLAY
+
+
+      this.app.querySelector('.play').onclick = function () {
+        if (!_this.play_is_active) {
+          _this._play();
+        }
+      }; // BOUTON PAUSE
+
+
+      this.app.querySelector('.stop').onclick = function () {
+        if (_this.play_is_active) {
+          _this._play();
+        }
+      };
+    }
   }, {
     key: "_play",
     value: function _play() {
-      // Activation de l'input navigation
-      this.el.querySelector('.play').onclick = function (e) {
-        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
-        alert("Play");
-      };
-    } // BOUTON PREVIOUS ----------
+      if (this.play_is_active) {
+        this.play_is_active = false;
+      } else if (!this.is_running) {
+        this.play_is_active = true;
 
-  }, {
-    key: "_previous",
-    value: function _previous() {
-      // Activation de l'input navigation
-      this.el.querySelector('.previous').onclick = function (e) {
-        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
-        alert("Previous");
-      };
-    } // BOUTON STOP ----------
+        this._playtheslide();
+      } // switchtheclass();
 
+    }
   }, {
-    key: "_stop",
-    value: function _stop() {
-      // Activation de l'input navigation
-      this.el.querySelector('.stop').onclick = function (e) {
-        // On va chercher .new-todo, quand on clique sur une tuche on capture l'évenement
-        alert("Stop");
-      };
+    key: "_playtheslide",
+    value: function _playtheslide() {
+      var _this2 = this;
+
+      if (this.play_is_active) {
+        this.is_running = true;
+        this.showGalerieImageItem(this.slideIndex + 1);
+        setTimeout(function () {
+          _this2._playtheslide();
+        }, 2000);
+      } else {
+        this.is_running = false;
+      }
     }
   }]);
 
@@ -520,7 +568,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55348" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51870" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
