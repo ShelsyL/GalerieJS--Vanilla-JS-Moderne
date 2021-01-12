@@ -1,4 +1,4 @@
-// Template d'une image du slide
+// TEMPLATE D'UNE IMAGE SLIDE
 
 export default `
 <!-- IMAGE SLIDE  -->

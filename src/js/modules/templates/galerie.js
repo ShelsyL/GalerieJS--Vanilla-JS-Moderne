@@ -1,3 +1,5 @@
+// TEMPLATE DE LA GALERIE
+
 export default `
 <!-- GALERIE TEMPLATE -->
 
@@ -10,7 +12,7 @@ export default `
 
    <div class="menu">
       <div class="slider-menu">
-         <h1>Titre</h1>
+         <h1 class="title"></h1>
          <ul class="slides image-menu">
             <!-- RENDER MENU IMAGE -->
          </ul>

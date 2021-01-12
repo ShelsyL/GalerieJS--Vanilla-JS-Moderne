@@ -1,5 +1,5 @@
-import imageTemplate from './templates/image'; // On importe imageTemplate
-import menuTemplate from './templates/menu'; // On importe imageTemplate
+import imageTemplate from './templates/image';
+import menuTemplate from './templates/menu';
 
 
 // data: {
@@ -8,17 +8,21 @@ import menuTemplate from './templates/menu'; // On importe imageTemplate
 // }
 
 export default class Image {
-  // CONSTRUCTEUR
+
+  // CONSTRUTEUR -----------------------------------------------------------------
   constructor(data) {
-    // "ton" parent est date.parent (parent: Galerie)
+
+      // 1."ton" parent est date.parent (parent: Galerie)
       this.parent = data.parent;
-    // On associe "ton" x à data.image.x, ex: ton id et égal à l'id de image
+
+      // 2. Propriétés
       this.id = data.image.id;
       this.src = data.image.src;
       this.alt = data.image.alt;
       this.href = data.image.href;
       this.content = data.image.content;
-      // On stocke les imports dans des variables
+
+      // 3.Imports
       this.templateImgSlide = imageTemplate;
       this.templateImgMenu = menuTemplate;
     }
@@ -26,23 +30,15 @@ export default class Image {
        de code HTML du template, quand on le push, le code HTML se construit après. */
 
 
-  /*
-    METHODE menuRender()
-      RENDU D'UNE IMAGE MENU
-      1. Pour toutes les propriéts dans "toi" - NB: un Objet(in) - d'un Tableau(of) | this c'est l'objet
-      2. On remplace les données statique par les données de Image
-  */
+
+// RENDU (GENERE) DE LA VUE 'IMAGE MENU' ------------------------------------------------------
+  // - NB: un Objet(in) - d'un Tableau(of) | this c'est l'objet
   menuRender() {
     for (let propriete in this) {
+        // On remplace les données statique par les données de Image
         this.templateImgMenu = this.templateImgMenu.replace('{{' + propriete + '}}', this[propriete]);
     }
-
-    /* CONSTRUCTION D'UNE IMG MENU
-        1. Création d'un nouveau li
-        2. Dans ce li, template d'une image
-        3. On ajoute dans "ton" parent (Galerie) le template d'une nouvelle image menuRender
-        4. On retourne une nouvelle image menu
-    */
+    // CONSTRUCTION D'UNE IMG MENU -----
     const newImgMenu = document.createElement('li');
     newImgMenu.innerHTML = this.templateImgMenu;
     this.parent.imageMenu.appendChild(newImgMenu);
@@ -50,48 +46,19 @@ export default class Image {
   }
 
 
-  /* METHODE imageRender()
-      RENDU D'UNE IMAGE SLIDE
-      1. Pour toutes les propriéts dans "toi"
-      2. On remplace les données statique par les données de Image
-  */
+
+// RENDU (GENERE) D'UNE 'IMAGE SLIDE -----------------------------------------------------
   imageRender() {
     for (let propriete in this) {
+        // On remplace les données statique par les données de Image
         this.templateImgSlide = this.templateImgSlide.replace('{{' + propriete + '}}', this[propriete]);
     }
-
-    /* CONSTRUCTION D'UNE IMG SLIDE
-        1. Création d'un nouveau li
-        2. On ajoute la class "slide"
-        2. Dans ce li, template d'une image
-        3. On ajoute dans "ton" parent (Galerie) le template d'une nouvelle image menuRender
-        4. On retourne une nouvelle image slide
-    */
+    // CONSTRUCTION D'UNE IMG SLIDE -----
     const newImgSlide = document.createElement('li');
     newImgSlide.classList.add("slide");
     newImgSlide.innerHTML = this.templateImgSlide;
     this.parent.imageSlide.appendChild(newImgSlide);
     return newImgSlide;
-
-// Activation du bouton rond +
-this._activerAddCircle();
-
   }
-
-//-------------------------------------
-
-  /*
-  METHODE _activerAddCircle()
-    Activation du bouton rond +
-  */
-  _activerAddCircle() {
-
-
-      }
-
-
-  }
-
-
 
 }
