@@ -390,24 +390,33 @@ var Galerie = /*#__PURE__*/function () {
       this.slideIndex = 1; // Activation des buttons
 
       this._activerBtns();
-    } // RENDU IMAGE MENU ----------
+    } // https://www.youtube.com/watch?v=5fKJE41MGyk&list=PLUjCePXct7Maf6Ijnmx3KqNxTfvCG3iV_&index=2&t=647s&ab_channel=PascalLACROIX
+    // RENDU IMAGE MENU ----------
 
   }, {
     key: "renderImgMenu",
     value: function renderImgMenu() {
+      var _this = this;
+
       this.imageMenu = this.app.querySelector('.image-menu');
 
       var _iterator2 = _createForOfIteratorHelper(this.images),
           _step2;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var _loop = function _loop() {
           var image = _step2.value;
           var imgMenu = image.menuRender();
 
           imgMenu.onclick = function () {
-            alert("Coucou");
+            //alert(image.id)
+            // j'envois dans showGalerieImageItem l'id de l'image
+            _this.showGalerieImageItem(image.id);
           };
+        };
+
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          _loop();
         }
       } catch (err) {
         _iterator2.e(err);
@@ -460,31 +469,31 @@ var Galerie = /*#__PURE__*/function () {
   }, {
     key: "_activerBtns",
     value: function _activerBtns() {
-      var _this = this;
+      var _this2 = this;
 
       // BOUTON PREVIOUS
       this.app.querySelector('.previous').onclick = function () {
-        _this.showGalerieImageItem(_this.slideIndex - 1); // this.slideIndex = this.slideIndex - 1;
+        _this2.showGalerieImageItem(_this2.slideIndex - 1); // this.slideIndex = this.slideIndex - 1;
 
       }; // BOUTON NEXT
 
 
       this.app.querySelector('.next').onclick = function () {
-        _this.showGalerieImageItem(_this.slideIndex + 1); // this.slideIndex = this.slideIndex + 1;
+        _this2.showGalerieImageItem(_this2.slideIndex + 1); // this.slideIndex = this.slideIndex + 1;
 
       }; // BOUTON PLAY
 
 
       this.app.querySelector('.play').onclick = function () {
-        if (!_this.play_is_active) {
-          _this._play();
+        if (!_this2.play_is_active) {
+          _this2._play();
         }
       }; // BOUTON PAUSE
 
 
       this.app.querySelector('.stop').onclick = function () {
-        if (_this.play_is_active) {
-          _this._play();
+        if (_this2.play_is_active) {
+          _this2._play();
         }
       };
     }
@@ -503,13 +512,13 @@ var Galerie = /*#__PURE__*/function () {
   }, {
     key: "_playtheslide",
     value: function _playtheslide() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.play_is_active) {
         this.is_running = true;
         this.showGalerieImageItem(this.slideIndex + 1);
         setTimeout(function () {
-          _this2._playtheslide();
+          _this3._playtheslide();
         }, 2000);
       } else {
         this.is_running = false;

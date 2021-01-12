@@ -47,14 +47,16 @@ export default class Galerie { // Définit la propriété élément (el)
       this._activerBtns();
   }
 
-
+// https://www.youtube.com/watch?v=5fKJE41MGyk&list=PLUjCePXct7Maf6Ijnmx3KqNxTfvCG3iV_&index=2&t=647s&ab_channel=PascalLACROIX
   // RENDU IMAGE MENU ----------
   renderImgMenu() {
       this.imageMenu = this.app.querySelector('.image-menu');
       for (let image of this.images) {
-          var imgMenu = image.menuRender();
+          const imgMenu = image.menuRender();
           imgMenu.onclick = () => {
-            alert("Coucou");
+            //alert(image.id)
+            // j'envois dans showGalerieImageItem l'id de l'image
+            this.showGalerieImageItem(image.id);
           }
       }
   }
